@@ -627,6 +627,8 @@ instance (SDecide k, SingI (as :: NonEmpty k)) => Decidable (In NonEmpty as) whe
           Disproved u -> Disproved $ \case
             NEHead   -> v Refl
             NETail i -> u i
+      -- GHC 8.10 thinks this pattern match is non-exhaustive
+      Sing NE.:%| _ -> error ":/"
 
 instance (SDecide k, SingI (as :: (j, k))) => Decidable (In ((,) j) as) where
     decide x = case sing @as of
